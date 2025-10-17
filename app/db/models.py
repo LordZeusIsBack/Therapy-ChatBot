@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, Text
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -24,3 +24,11 @@ class User(Base):
     encrypted_dob = Column(String)
 
     hmac = relationship('HMACTable', back_populates='user')
+
+class Audit(Base):
+    __tablename__ = 'audit_logs'
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_hmac_id = Column(Integer, ForeignKey("hmac_keys.id"))
+    timestamp = Column(DateTime(timezone=True), default=func.now())
+    chat_log = Column(Text)
