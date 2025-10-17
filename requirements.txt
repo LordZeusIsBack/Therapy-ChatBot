@@ -1,4 +1,5 @@
 fastapi==0.119.0
+neo4j==6.0.2
 psycopg2-binary==2.9.11
 python-dotenv==1.1.1
 SQLAlchemy==2.0.44
