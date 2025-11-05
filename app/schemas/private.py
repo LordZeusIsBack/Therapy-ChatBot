@@ -23,7 +23,7 @@ class UserInternal(BaseModel):
 
 class AuditInternal(BaseModel):
     id: int
-    user_hmac_id: str
+    user_hmac_id: int
     timestamp: datetime
     chat_log: str | None = None
 
@@ -32,7 +32,7 @@ class AuditInternal(BaseModel):
 
 class SymptomEmbeddingInternal(BaseModel):
     id: int
-    user_hmac_id: str
+    user_hmac_id: int
     symptom: str
     intensity: float
     embedding: list[float] | None = None

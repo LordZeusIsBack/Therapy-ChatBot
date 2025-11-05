@@ -34,6 +34,8 @@ class Audit(Base):
     timestamp = Column(DateTime(timezone=True), default=func.now())
     chat_log = Column(Text)
 
+    hmac = relationship('HMACTable')
+
 
 class SymptomEmbedding(Base):
     __tablename__ = 'symptom_embeddings'
