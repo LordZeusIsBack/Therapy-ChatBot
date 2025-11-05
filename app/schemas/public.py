@@ -21,3 +21,11 @@ class AuditPublic(BaseModel):
     timestamp: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class SymptomEmbeddingPublic(BaseModel):
+    id: int
+    symptom: str
+    intensity: float
+
+    model_config = ConfigDict(from_attributes=True)
