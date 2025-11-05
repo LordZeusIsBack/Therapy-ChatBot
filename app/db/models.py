@@ -19,7 +19,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
-    hmac_id = Column(Integer, ForeignKey('hmac_keys.id'))
+    hmac_id = Column(Integer, ForeignKey('hmac_keys.id'), unique=True, nullable=False)
     encrypted_name = Column(String, nullable=False)
     encrypted_email = Column(String, nullable=False)
     encrypted_dob = Column(String)
