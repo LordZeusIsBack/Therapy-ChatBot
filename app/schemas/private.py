@@ -28,3 +28,13 @@ class AuditInternal(BaseModel):
     chat_log: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class SymptomEmbeddingInternal(BaseModel):
+    id: int
+    user_hmac_id: str
+    symptom: str
+    intensity: float
+    embedding: list[float] | None = None
+
+    model_config = ConfigDict(from_attributes=True)
