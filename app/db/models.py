@@ -1,4 +1,4 @@
-from pgvector.sqlalchemy import VECTOR
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, Text, Float
 from sqlalchemy.orm import relationship
 
@@ -47,6 +47,6 @@ class SymptomEmbedding(Base):
     user_hmac_id = Column(Integer, ForeignKey('hmac_keys.id'), nullable=False)
     symptom = Column(String, nullable=False)
     intensity = Column(Float, default=0.0)
-    embedding = Column(VECTOR(384))
+    embedding = Column(Vector(384))
 
     hmac = relationship('HMACTable', back_populates='symptom_embeddings')
