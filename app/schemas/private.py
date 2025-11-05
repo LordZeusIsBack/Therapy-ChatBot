@@ -13,7 +13,7 @@ class HMACInternal(BaseModel):
 
 class UserInternal(BaseModel):
     id: int
-    hmac_id: str
+    hmac_id: int
     encrypted_name: str
     encrypted_email: str
     encrypted_dob: str | None = None
