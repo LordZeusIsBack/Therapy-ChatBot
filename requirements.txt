@@ -1,6 +1,8 @@
 fastapi==0.119.0
-neo4j==6.0.2
+numpy==2.3.4
+pgvector==0.4.1
 psycopg2-binary==2.9.11
+pydantic==2.12.2
 python-dotenv==1.1.1
 SQLAlchemy==2.0.44
 uvicorn==0.37.0
