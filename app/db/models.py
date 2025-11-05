@@ -12,7 +12,10 @@ class HMACTable(Base):
     user_identifier_hash = Column(String, unique=True, index=True, nullable=False)
     salt = Column(String, nullable=False)
     hmac_key = Column(String, nullable=False)
+
     user = relationship('User', back_populates='hmac', uselist=False)
+    audit_logs = relationship('Audit', back_populates='hmac')
+    symptom_embeddings = relationship('SymptomEmbedding', back_populates='hmac')
 
 
 class User(Base):
@@ -34,7 +37,7 @@ class Audit(Base):
     timestamp = Column(DateTime(timezone=True), default=func.now())
     chat_log = Column(Text)
 
-    hmac = relationship('HMACTable')
+    hmac = relationship('HMACTable', back_populates='audit_logs')
 
 
 class SymptomEmbedding(Base):
@@ -46,4 +49,4 @@ class SymptomEmbedding(Base):
     intensity = Column(Float, default=0.0)
     embedding = Column(VECTOR(384))
 
-    hmac = relationship('HMACTable')
+    hmac = relationship('HMACTable', back_populates='symptom_embeddings')
