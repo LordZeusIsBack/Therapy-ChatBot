@@ -1,5 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 
+from datetime import datetime
 
 class HMACInternal(BaseModel):
     id: int
@@ -16,5 +17,14 @@ class UserInternal(BaseModel):
     encrypted_name: str
     encrypted_email: str
     encrypted_dob: str | None = None
+
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AuditInternal(BaseModel):
+    id: int
+    user_hmac_id: str
+    timestamp: datetime
+    chat_log: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
