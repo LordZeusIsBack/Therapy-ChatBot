@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, Text
+from pgvector.sqlalchemy import VECTOR
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func, Text, Float
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -32,3 +33,15 @@ class Audit(Base):
     user_hmac_id = Column(Integer, ForeignKey("hmac_keys.id"))
     timestamp = Column(DateTime(timezone=True), default=func.now())
     chat_log = Column(Text)
+
+
+class SymptomEmbedding(Base):
+    __tablename__ = 'symptom_embeddings'
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_hmac_id = Column(Integer, ForeignKey('hmac_keys.id'), nullable=False)
+    symptom = Column(String, nullable=False)
+    intensity = Column(Float, default=0.0)
+    embedding = Column(VECTOR(384))
+
+    hmac = relationship('HMACTable')
