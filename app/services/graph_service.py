@@ -5,7 +5,8 @@ from app.db.models import SymptomEmbedding
 
 
 def add_symptom_embedding(db: Session, uid: int, symptom: str, intensity: float, embedding: list[float]):
-    embedding_np = np.array(embedding, dtype=np.float32)
+    embedding_np = np.asarray(embedding, dtype=np.float32).ravel()
+    if embedding_np.size != 384: raise ValueError("Symptom embeddings must be 384-dimensional to match storage.")
     embedding_list = embedding_np.tolist()
 
     record = SymptomEmbedding(
