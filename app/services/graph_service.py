@@ -16,7 +16,19 @@ def add_symptom_embedding(db: Session, uid: int, symptom: str, intensity: float,
         embedding=embedding_list
     )
 
+    record = SymptomEmbedding(
+        user_hmac_id=uid,
+        symptom=symptom,
+        intensity=intensity,
+        embedding=embedding_list
+    )
+
     db.add(record)
-    db.commit()
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
     db.refresh(record)
+    return record
     return record
