@@ -1,22 +1,25 @@
-from os import getenv
+import numpy as np
+from sqlalchemy.orm import Session
 
-from neo4j import GraphDatabase, Query
+from app.db.models import SymptomEmbedding
 
 
-uri = getenv('NEO4J_URI')
-user = getenv('NEO4J_USER')
-password = getenv('NEO4J_PASSWORD')
+def add_symptom_embedding(db: Session, uid: int, symptom: str, intensity: float, embedding: list[float]):
+    embedding_np = np.asarray(embedding, dtype=np.float32).ravel()
+    if embedding_np.size != 384: raise ValueError("Symptom embeddings must be 384-dimensional to match storage.")
+    embedding_list = embedding_np.tolist()
 
-driver = GraphDatabase.driver(uri, auth=(user, password))
-CYPHER = Query("""
-    MERGE (u:User {id: $uid})
-    MERGE (s:Symptom {name: $symptom})
-    MERGE (u)-[:EXHIBITS {intensity: $intensity}]->(s)
-""")
+    record = SymptomEmbedding(
+        user_hmac_id=uid,
+        symptom=symptom,
+        intensity=intensity,
+        embedding=embedding_list
+    )
 
-def _add_symptom_tx(tx, uid, symptom, intensity):
-    tx.run(CYPHER, uid=uid, symptom=symptom, intensity=intensity)
-
-def add_symptom_node(uid, symptom, intensity):
-    with driver.session() as session:
-        session.execute_write(_add_symptom_tx, uid, symptom, intensity)
+    db.add(record)
+    try: db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    db.refresh(record)
+    return record
