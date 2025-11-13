@@ -1,8 +1,9 @@
-fastapi==0.119.0
+fastapi==0.121.1
 numpy==2.3.4
 pgvector==0.4.1
 psycopg2-binary==2.9.11
-pydantic==2.12.2
-python-dotenv==1.1.1
+pydantic==2.12.4
+python-dotenv==1.2.1
 SQLAlchemy==2.0.44
-uvicorn==0.37.0
+streamlit==1.51.0
+uvicorn==0.38.0
